@@ -35,7 +35,7 @@ async function signIn(req, res) {
             return res.sendStatus(400);
         }
 
-        const users = await connection.query('SELECT * FROM users WHERE email = $1', [email]);
+        const users = await connection.query('SELECT * FROM users WHERE email = $1;', [email]);
         const user = users.rows[0];
 
         if (!user) return res.sendStatus(401);
@@ -45,7 +45,8 @@ async function signIn(req, res) {
         if (!isPasswordCorrect) return res.sendStatus(401);
 
         const token = uuid();
-        await connection.query('INSERT INTO sessions (user_id, token) VALUES ($1, $2)', [user.id, token]);
+
+        connection.query('INSERT INTO sessions (user_id, token) VALUES ($1, $2) RETURNING token;', [user.id, token]);
 
         res.status(200).send({
             name: user.name,
