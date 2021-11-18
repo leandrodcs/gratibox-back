@@ -8,7 +8,7 @@ async function signUp(req, res) {
             return res.status(400).send(validateUser(req.body).details[0].message);
         }
 
-        const users = await connection.query('SELECT * FROM users WHERE email = $1;', [email]);
+        const users = await connection.query('SELECT * FROM users WHERE email = $1;', [req.body.email]);
         const user = users.rows[0];
 
         if (user) return res.sendStatus(409);
