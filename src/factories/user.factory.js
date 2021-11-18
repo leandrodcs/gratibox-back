@@ -10,9 +10,7 @@ function fakeUserFactory(invalidProperty) {
         email: faker.internet.email(),
         password: faker.internet.password(4),
     };
-    if (invalidProperty) {
-        fakeUser[invalidProperty] = '123';
-    }
+    if (invalidProperty) fakeUser[invalidProperty] = '123';
     return fakeUser;
 }
 
