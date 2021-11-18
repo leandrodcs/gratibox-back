@@ -3,7 +3,7 @@ import joi from 'joi';
 
 function validateUser(user) {
     const schema = joi.object({
-        name: joi.string().min(1).max(30).regex(/^[A-Za-z]+$/).required(),
+        name: joi.string().min(1).max(30).regex(/^[a-zA-Z\s]*$/).required(),
         email: joi.string().email().required(),
         password: joi.string().min(4).required(),
     }).unknown();
