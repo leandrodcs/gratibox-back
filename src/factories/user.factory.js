@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import faker from 'faker';
 import bcrypt from 'bcrypt';
 import connection from '../database/database.js';

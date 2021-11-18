@@ -33,7 +33,7 @@ describe('POST sign-up', () => {
 
     it('returns 409 for conflicting email addresses', async () => {
         const validUser = fakeUserFactory();
-        userFactory(validUser);
+        await userFactory(validUser);
         const result = await supertest(app).post('/sign-up').send(validUser);
         expect(result.status).toEqual(409);
     });
