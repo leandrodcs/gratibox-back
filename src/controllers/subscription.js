@@ -1,8 +1,8 @@
+/* eslint-disable no-console */
 import dayjs from 'dayjs';
 import connection from '../database/database.js';
 import { validateSubscription } from '../validation/subscription.js';
 import 'dayjs/locale/pt-br.js';
-
 
 async function postSubscription(req, res) {
     const token = req.headers.authorization?.split('Bearer ')[1];
@@ -41,7 +41,36 @@ async function postSubscription(req, res) {
         });
         res.sendStatus(201);
     } catch (error) {
-        // eslint-disable-next-line no-console
+        console.log(error);
+        res.sendStatus(500);
+    }
+}
+
+async function getSubscription(req, res) {
+    const token = req.headers.authorization?.split('Bearer ')[1];
+
+    try {
+        const user = await connection.query('SELECT user_id FROM sessions WHERE token = $1;', [token]);
+        const userId = user.rows[0].user_id;
+
+        const subs = await connection.query(`
+            SELECT 
+                 id, entry_date, delivery_date
+            FROM 
+                subscribers 
+            WHERE 
+                user_id = $1;`, [userId]);
+        if (!subs.rows.length) return res.sendStatus(204);
+
+        const productsArr = await connection.query('SELECT products.name FROM sub_products JOIN products ON sub_products.product_id = products.id WHERE sub_id = $1', [subs.rows[0].id]);
+        const products = productsArr.rows.map((prod) => prod.name);
+
+        res.status(200).send({
+            entryDate: subs.rows[0].entry_date,
+            deliveryDate: subs.rows[0].delivery_date,
+            products,
+        });
+    } catch (error) {
         console.log(error);
         res.sendStatus(500);
     }
@@ -49,4 +78,5 @@ async function postSubscription(req, res) {
 
 export {
     postSubscription,
+    getSubscription,
 };

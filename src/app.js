@@ -3,9 +3,8 @@ import cors from 'cors';
 import dayjs from 'dayjs';
 import { signIn, signUp } from './controllers/user.js';
 import checkToken from './middleware/auth.js';
-import { postSubscription } from './controllers/subscription.js';
+import { getSubscription, postSubscription } from './controllers/subscription.js';
 import 'dayjs/locale/pt-br.js';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import faker from 'faker';
 
 faker.locale = 'pt_BR';
@@ -22,6 +21,7 @@ app.post('/sign-in', signIn);
 
 //SUBSCRIPTIONS
 app.post('/subscription', checkToken, postSubscription);
+app.get('/subscription', checkToken, getSubscription);
 
 app.get('/health', (req, res) => {
     res.status(200).send('Server is on.');
