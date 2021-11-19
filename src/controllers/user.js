@@ -60,6 +60,7 @@ async function signIn(req, res) {
 
         if (session.rows[0]) {
             return res.status(200).send({
+                id: user.id,
                 name: user.name,
                 email,
                 password,
