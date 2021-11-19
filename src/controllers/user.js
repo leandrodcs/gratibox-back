@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import { query } from 'express';
 import { v4 as uuid } from 'uuid';
 import connection from '../database/database.js';
 import { userFactory } from '../factories/user.factory.js';
@@ -44,12 +45,36 @@ async function signIn(req, res) {
 
         if (!isPasswordCorrect) return res.sendStatus(401);
 
+        const session = await connection.query(`
+            SELECT
+                sessions.user_id, sessions.token
+            FROM 
+                users
+            JOIN
+                sessions
+            ON
+                users.id = sessions.user_id
+            WHERE
+                users.email = $1
+        ;`, [email]);
+
+        if (session.rows[0]) {
+            return res.status(200).send({
+                name: user.name,
+                email,
+                password,
+                token: session.rows[0].token,
+            });
+        }
+
         const token = uuid();
 
-        connection.query('INSERT INTO sessions (user_id, token) VALUES ($1, $2) RETURNING token;', [user.id, token]);
+        await connection.query('INSERT INTO sessions (user_id, token) VALUES ($1, $2) RETURNING token;', [user.id, token]);
 
         res.status(200).send({
             name: user.name,
+            email,
+            password,
             token,
         });
     } catch (error) {
