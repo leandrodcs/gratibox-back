@@ -23,7 +23,7 @@ async function userFactory(body) {
     } = body;
     const hashPassword = bcrypt.hashSync(password, 10);
 
-    return connection.query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3);', [name, email, hashPassword]);
+    return connection.query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id;', [name, email, hashPassword]);
 }
 
 export {

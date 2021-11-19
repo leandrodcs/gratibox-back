@@ -6,7 +6,7 @@ import { fakeUserFactory, userFactory } from '../src/factories/user.factory.js';
 import connection from '../src/database/database.js';
 
 afterAll(async () => {
-    await connection.query('DELETE FROM users;');
+    await connection.query('TRUNCATE users CASCADE;');
     connection.end();
 });
 
