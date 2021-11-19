@@ -19,12 +19,14 @@ async function postSubscription(req, res) {
     try {
         const user = await connection.query('SELECT user_id FROM sessions WHERE token = $1;', [token]);
         const userId = user.rows[0].user_id;
-        console.log(userId);
         if (validateSubscription(req.body)) {
             return res.status(400).send(validateSubscription(req.body).details[0].message);
         }
         if (!products.length) return res.status(400).send('Você precisa selecionar ao menos um produto!');
-        console.log(dayjs().locale('pt-br').format('d'));
+
+        const firstTimeSub = await connection.query('SELECT * FROM subscribers WHERE user_id = $1;', [userId]);
+
+        if (firstTimeSub.rows.length) return res.sendStatus(409);
 
         const newSub = await connection.query(`
             INSERT INTO
@@ -37,7 +39,7 @@ async function postSubscription(req, res) {
         products.forEach(async (prod) => {
             await connection.query('INSERT INTO sub_products (sub_id, product_id) VALUES ($1, $2);', [newSub.rows[0].id, prod]);
         });
-        res.sendStatus(200);
+        res.sendStatus(201);
     } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);

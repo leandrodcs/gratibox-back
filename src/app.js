@@ -5,8 +5,10 @@ import { signIn, signUp } from './controllers/user.js';
 import checkToken from './middleware/auth.js';
 import { postSubscription } from './controllers/subscription.js';
 import 'dayjs/locale/pt-br.js';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import faker from 'faker';
 
-console.log(dayjs().locale('pt-br').format('DD/MM/YYYY'));
+faker.locale = 'pt_BR';
 
 const app = express();
 app.use(express.json());

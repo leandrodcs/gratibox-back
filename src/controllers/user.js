@@ -70,7 +70,7 @@ async function signIn(req, res) {
 
         const token = uuid();
 
-        await connection.query('INSERT INTO sessions (user_id, token) VALUES ($1, $2) RETURNING token;', [user.id, token]);
+        await connection.query('INSERT INTO sessions (user_id, token) VALUES ($1, $2);', [user.id, token]);
 
         res.status(200).send({
             name: user.name,
