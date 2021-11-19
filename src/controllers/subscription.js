@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-await-in-loop */
 /* eslint-disable no-console */
 import dayjs from 'dayjs';
 import connection from '../database/database.js';
@@ -36,9 +38,10 @@ async function postSubscription(req, res) {
                 ($1, $2, $3, $4, $5, $6, $7, $8)
             RETURNING id
         ;`, [userId, fullName, address, zipCode, city, stateId, dayjs().locale('pt-br').format('DD/MM/YYYY'), deliveryDate]);
-        products.forEach(async (prod) => {
-            await connection.query('INSERT INTO sub_products (sub_id, product_id) VALUES ($1, $2);', [newSub.rows[0].id, prod]);
-        });
+
+        for (let i = 0; i < products.length; i++) {
+            await connection.query('INSERT INTO sub_products (sub_id, product_id) VALUES ($1, $2);', [newSub.rows[0].id, products[i]]);
+        }
         res.sendStatus(201);
     } catch (error) {
         console.log(error);

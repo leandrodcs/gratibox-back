@@ -34,3 +34,12 @@ describe('POST subscription', () => {
         expect(result.status).toEqual(409);
     });
 });
+
+describe('GET subscription', () => {
+    it('returns 200 for found subscription', async () => {
+        const result = await supertest(app).get('/subscription').set('Authorization', `Bearer ${token}`);
+        expect(result.status).toEqual(200);
+        expect(result.body).toHaveProperty('entryDate');
+        expect(result.body.products).toHaveLength(3);
+    });
+});
