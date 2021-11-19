@@ -1,13 +1,8 @@
 import express from 'express';
 import cors from 'cors';
-import dayjs from 'dayjs';
 import { signIn, signUp } from './controllers/user.js';
 import checkToken from './middleware/auth.js';
 import { getSubscription, postSubscription } from './controllers/subscription.js';
-import 'dayjs/locale/pt-br.js';
-import faker from 'faker';
-
-faker.locale = 'pt_BR';
 
 const app = express();
 app.use(express.json());
