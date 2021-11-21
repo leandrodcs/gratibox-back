@@ -10,7 +10,7 @@ function fakeSubscriptionFactory() {
         zipCode: faker.address.zipCode(),
         city: faker.address.cityName(),
         stateId: faker.datatype.number(27),
-        deliveryDate: '01',
+        deliveryDate: '1',
         products: [1, 2, 3],
     };
     return fakeSubscription;
