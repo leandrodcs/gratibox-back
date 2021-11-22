@@ -22,7 +22,11 @@ async function postSubscription(req, res) {
         const user = await connection.query('SELECT user_id FROM sessions WHERE token = $1;', [token]);
         const userId = user.rows[0].user_id;
         if (validateSubscription(req.body)) {
-            return res.status(400).send(validateSubscription(req.body).details[0].message);
+            const message = validateSubscription(req.body).details[0].message;
+            if (message.includes("fullName")) return res.status(400).send('Nome completo deve ter no máximo 50 caracteres');
+            if (message.includes("address")) return res.status(400).send('Endereço deve conter nome de rua e número');
+            if (message.includes("zipCode")) return res.status(400).send('CEP deve seguir o exemplo: XXXXX-XXX');
+            return res.status(400).send(message);
         }
         if (!products.length) return res.status(400).send('Você precisa selecionar ao menos um produto!');
 
