@@ -345,6 +345,7 @@ COPY public.products (id, name) FROM stdin;
 --
 
 COPY public.sessions (id, user_id, token) FROM stdin;
+5	6	d20407d2-f360-4e25-af52-d6d053c865fa
 \.
 
 
@@ -404,6 +405,7 @@ COPY public.subscribers (id, user_id, complete_name, address, zip_code, city, st
 --
 
 COPY public.users (id, name, email, password) FROM stdin;
+6	test	test@test.com	$2b$10$rjxDV875UIyiz.2wfN4j1.wJcul58trr.WpExBx94anVtiWGvWGpm
 \.
 
 
@@ -425,7 +427,7 @@ SELECT pg_catalog.setval('public.products_id_seq', 3, true);
 -- Name: sessions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sessions_id_seq', 3, true);
+SELECT pg_catalog.setval('public.sessions_id_seq', 5, true);
 
 
 --
@@ -439,21 +441,21 @@ SELECT pg_catalog.setval('public.states_id_seq', 27, true);
 -- Name: sub_products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sub_products_id_seq', 28, true);
+SELECT pg_catalog.setval('public.sub_products_id_seq', 29, true);
 
 
 --
 -- Name: subscribers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.subscribers_id_seq', 23, true);
+SELECT pg_catalog.setval('public.subscribers_id_seq', 24, true);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 4, true);
+SELECT pg_catalog.setval('public.users_id_seq', 6, true);
 
 
 --
