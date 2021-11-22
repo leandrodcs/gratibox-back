@@ -32,7 +32,7 @@ async function postSubscription(req, res) {
 
         const firstTimeSub = await connection.query('SELECT * FROM subscribers WHERE user_id = $1;', [userId]);
 
-        if (firstTimeSub.rows.length) return res.sendStatus(409);
+        if (firstTimeSub.rows.length) return res.status(409).send('Você já possui uma inscrição.');
 
         const newSub = await connection.query(`
             INSERT INTO

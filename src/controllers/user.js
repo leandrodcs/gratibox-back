@@ -14,7 +14,7 @@ async function signUp(req, res) {
         const users = await connection.query('SELECT * FROM users WHERE email = $1;', [req.body.email]);
         const user = users.rows[0];
 
-        if (user) return res.sendStatus(409);
+        if (user) return res.status(409).send('Email já cadastrado.');
 
         await userFactory(req.body);
         res.sendStatus(201);
