@@ -62,7 +62,7 @@ async function getSubscription(req, res) {
 
         const subs = await connection.query(`
             SELECT 
-                 id, entry_date, delivery_date
+                id, entry_date, delivery_date
             FROM 
                 subscribers 
             WHERE 
