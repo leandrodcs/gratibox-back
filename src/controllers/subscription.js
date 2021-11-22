@@ -7,7 +7,7 @@ import { validateSubscription } from '../validation/subscription.js';
 import 'dayjs/locale/pt-br.js';
 
 async function postSubscription(req, res) {
-    const token = req.headers.authorization?.split('Bearer ')[1];
+    const token = req.headers.authorization?.replace('Bearer ', '');
     const {
         fullName,
         address,
@@ -50,7 +50,7 @@ async function postSubscription(req, res) {
 }
 
 async function getSubscription(req, res) {
-    const token = req.headers.authorization?.split('Bearer ')[1];
+    const token = req.headers.authorization?.replace('Bearer ', '');
 
     try {
         const user = await connection.query('SELECT user_id FROM sessions WHERE token = $1;', [token]);
