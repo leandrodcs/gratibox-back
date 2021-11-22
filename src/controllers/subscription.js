@@ -37,7 +37,7 @@ async function postSubscription(req, res) {
             VALUES
                 ($1, $2, $3, $4, $5, $6, $7, $8)
             RETURNING id
-        ;`, [userId, fullName, address, zipCode, city, stateId, dayjs().locale('pt-br').format('DD/MM/YYYY'), deliveryDate]);
+        ;`, [userId, fullName, address, zipCode, city, stateId, dayjs().locale('pt-br').format('YYYY-MM-DD'), deliveryDate]);
 
         for (let i = 0; i < products.length; i++) {
             await connection.query('INSERT INTO sub_products (sub_id, product_id) VALUES ($1, $2);', [newSub.rows[0].id, products[i]]);
