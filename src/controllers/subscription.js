@@ -65,7 +65,7 @@ async function getSubscription(req, res) {
                 user_id = $1;`, [userId]);
         if (!subs.rows.length) return res.sendStatus(204);
 
-        const productsArr = await connection.query('SELECT products.name FROM sub_products JOIN products ON sub_products.product_id = products.id WHERE sub_id = $1', [subs.rows[0].id]);
+        const productsArr = await connection.query('SELECT products.name FROM sub_products JOIN products ON sub_products.product_id = products.id WHERE sub_id = $1 ORDER BY products.id ASC;', [subs.rows[0].id]);
         const products = productsArr.rows.map((prod) => prod.name);
 
         res.status(200).send({
